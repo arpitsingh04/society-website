@@ -8,12 +8,15 @@ const galleryImageSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['Equipment Rental', 'Electrical & Instrumentation', 'Industrial Projects'],
-    default: 'Industrial Projects'
+    enum: ['General', 'Society Meeting', 'Cultural Event', 'Sports', 'Workshop'],
+    default: 'General'
   },
   filePath: { type: String, required: true },
   fileSize: { type: Number },
   mimeType: { type: String },
+  eventDate: { type: Date },
+  location: { type: String },
+  themes: [{ type: String }]
 }, {
   timestamps: true
 });

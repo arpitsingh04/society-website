@@ -17,7 +17,7 @@ const uploadImage = async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const { title, description, category } = req.body;
+    const { title, description, category, eventDate, location, themes } = req.body;
     if (!title) {
       return res.status(400).json({ error: 'Title is required' });
     }
@@ -27,10 +27,14 @@ const uploadImage = async (req, res) => {
       originalName: req.file.originalname,
       title,
       description,
-      category: category || 'Industrial Projects',
-      filePath: req.file.filename, // Store just the filename, not the full path
+      description,
+      category: category || 'General',
+      filePath: req.file.filename,
       fileSize: req.file.size,
-      mimeType: req.file.mimetype
+      mimeType: req.file.mimetype,
+      eventDate: eventDate || null,
+      location: location || null,
+      themes: themes ? JSON.parse(themes) : []
     });
 
     await image.save();

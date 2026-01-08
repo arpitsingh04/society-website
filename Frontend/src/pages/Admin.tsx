@@ -69,7 +69,9 @@ const Admin = () => {
   const [uploadData, setUploadData] = useState({
     title: '',
     description: '',
-    category: 'Industrial Projects',
+    category: 'General',
+    eventDate: '',
+    location: '',
     file: null as File | null
   });
 
@@ -201,6 +203,8 @@ const Admin = () => {
     formData.append('title', uploadData.title);
     formData.append('category', uploadData.category);
     if (uploadData.description) formData.append('description', uploadData.description);
+    if (uploadData.eventDate) formData.append('eventDate', uploadData.eventDate);
+    if (uploadData.location) formData.append('location', uploadData.location);
 
     try {
       const token = localStorage.getItem('adminToken');
@@ -211,21 +215,21 @@ const Admin = () => {
       });
 
       if (response.ok) {
-        toast({ title: 'Success', description: 'Project uploaded successfully' });
-        setUploadData({ title: '', description: '', category: 'Industrial Projects', file: null });
+        toast({ title: 'Success', description: 'Event uploaded successfully' });
+        setUploadData({ title: '', description: '', category: 'Industrial Projects', eventDate: '', location: '', file: null });
         fetchImages();
       } else {
         throw new Error('Upload failed');
       }
     } catch (error) {
-      toast({ title: 'Error', description: 'Failed to upload image', variant: 'destructive' });
+      toast({ title: 'Error', description: 'Failed to upload event', variant: 'destructive' });
     } finally {
       setLoading(false);
     }
   };
 
   const deleteImage = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this image?')) return;
+    if (!confirm('Are you sure you want to delete this event?')) return;
 
     try {
       const token = localStorage.getItem('adminToken');
@@ -235,13 +239,13 @@ const Admin = () => {
       });
 
       if (response.ok) {
-        toast({ title: 'Success', description: 'Image deleted successfully' });
+        toast({ title: 'Success', description: 'Event deleted successfully' });
         fetchImages();
       } else {
         throw new Error('Delete failed');
       }
     } catch (error) {
-      toast({ title: 'Error', description: 'Failed to delete image', variant: 'destructive' });
+      toast({ title: 'Error', description: 'Failed to delete event', variant: 'destructive' });
     }
   };
 
@@ -440,7 +444,7 @@ const Admin = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">Admin Dashboard</h1>
-              <p className="text-white/80 text-sm sm:text-base hidden sm:block">Manage your gallery and contact messages</p>
+              <p className="text-white/80 text-sm sm:text-base hidden sm:block">Manage your events and contact messages</p>
             </div>
             <Button onClick={handleLogout} variant="outline" className="border-white text-black hover:bg-white/10 text-sm px-3 py-2">
               <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -454,10 +458,10 @@ const Admin = () => {
             <div className="bg-white/10 rounded-lg p-2 sm:p-4 backdrop-blur-sm">
               <div className="flex flex-col sm:flex-row items-center sm:gap-3 text-center sm:text-left">
                 <div className="w-6 h-6 sm:w-10 sm:h-10 bg-white/20 rounded-lg flex items-center justify-center mb-1 sm:mb-0">
-                  <Eye className="h-3 w-3 sm:h-5 sm:w-5" />
+                  <Calendar className="h-3 w-3 sm:h-5 sm:w-5" />
                 </div>
                 <div>
-                  <p className="text-white/80 text-xs sm:text-sm">Projects</p>
+                  <p className="text-white/80 text-xs sm:text-sm">Events</p>
                   <p className="text-lg sm:text-2xl font-bold">{images.length}</p>
                 </div>
               </div>
@@ -490,9 +494,9 @@ const Admin = () => {
         <Tabs defaultValue="gallery" className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl">
             <TabsTrigger value="gallery" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg text-xs sm:text-sm px-2 py-2">
-              <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Projects</span>
-              <span className="sm:hidden">Projects</span>
+              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Events</span>
+              <span className="sm:hidden">Events</span>
             </TabsTrigger>
             <TabsTrigger value="team" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg text-xs sm:text-sm px-2 py-2">
               <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -511,14 +515,14 @@ const Admin = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
-                  Upload New Project
+                  Upload New Event
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
                 <form onSubmit={handleImageUpload} className="space-y-3 sm:space-y-4">
                   <div className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                     <div>
-                      <Label htmlFor="title" className="text-sm">Project Title *</Label>
+                      <Label htmlFor="title" className="text-sm">Event Title *</Label>
                       <Input
                         id="title"
                         value={uploadData.title}
@@ -536,15 +540,39 @@ const Admin = () => {
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
                       >
-                        <option value="Industrial Projects">Industrial Projects</option>
-                        <option value="Equipment Rental">Equipment Rental</option>
-                        <option value="Electrical & Instrumentation">Electrical & Instrumentation</option>
+                        <option value="General">General</option>
+                        <option value="Society Meeting">Society Meeting</option>
+                        <option value="Cultural Event">Cultural Event</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Workshop">Workshop</option>
                       </select>
                     </div>
                   </div>
                   <div className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
+                    <div>
+                      <Label htmlFor="eventDate" className="text-sm">Event Date</Label>
+                      <Input
+                        id="eventDate"
+                        type="date"
+                        value={uploadData.eventDate}
+                        onChange={(e) => setUploadData(prev => ({ ...prev, eventDate: e.target.value }))}
+                        className="text-sm"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="location" className="text-sm">Location</Label>
+                      <Input
+                        id="location"
+                        value={uploadData.location}
+                        onChange={(e) => setUploadData(prev => ({ ...prev, location: e.target.value }))}
+                        className="text-sm"
+                        placeholder="e.g. Surat, Gujarat"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                     <div className="col-span-2">
-                      <Label htmlFor="file" className="text-sm">Project Image *</Label>
+                      <Label htmlFor="file" className="text-sm">Event Image *</Label>
                       <Input
                         id="file"
                         type="file"
@@ -567,7 +595,7 @@ const Admin = () => {
                   </div>
                   <Button type="submit" disabled={loading} className="w-full sm:w-auto text-sm">
                     <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                    {loading ? 'Uploading...' : 'Upload Project'}
+                    {loading ? 'Uploading...' : 'Upload Event'}
                   </Button>
                 </form>
               </CardContent>
@@ -576,7 +604,7 @@ const Admin = () => {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center justify-between text-lg sm:text-xl">
-                  <span>Projects ({images.length})</span>
+                  <span>Events ({images.length})</span>
                   <Button onClick={fetchImages} variant="outline" size="sm" className="text-xs px-2 py-1">
                     <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
