@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Wrench, Zap, Truck, Settings } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import logoImage from '@/assets/sejalcolor.png';
@@ -10,8 +10,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isServicesHovered, setIsServicesHovered] = useState(false);
-  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -26,23 +24,6 @@ const Navigation = () => {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    {
-      name: 'Services',
-      subItems: [
-        {
-          name: 'Equipment Rental',
-          href: '/services/equipment-rental',
-          icon: Truck,
-          description: 'High-quality industrial access & material handling equipment'
-        },
-        {
-          name: 'Electrical & Instrumentation',
-          href: '/services/electrical-instrumentation',
-          icon: Zap,
-          description: 'Complete process automation & instrumentation solutions'
-        },
-      ]
-    },
     { name: 'Certificates', href: '/certificates' },
     { name: 'Projects', href: '/projects' },
     { name: 'Contact', href: '/contact' },
@@ -109,96 +90,18 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               {navigation.map((item) => (
-                <div
+                <Link
                   key={item.name}
-                  className="relative h-full flex items-center"
-                  onMouseEnter={() => item.name === 'Services' && setIsServicesHovered(true)}
-                  onMouseLeave={() => item.name === 'Services' && setIsServicesHovered(false)}
+                  to={item.href}
+                  className={cn(
+                    "font-semibold flex items-center transition-colors duration-200 hover:text-brand-orange",
+                    location.pathname === item.href
+                      ? "text-brand-orange"
+                      : "text-foreground"
+                  )}
                 >
-                  {item.href ? (
-                    <Link
-                      to={item.href}
-                      className={cn(
-                        "font-semibold flex items-center transition-colors duration-200 hover:text-brand-orange",
-                        (location.pathname === item.href || (item.subItems && item.subItems.some(sub => location.pathname === sub.href)))
-                          ? "text-brand-orange"
-                          : "text-foreground"
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    <span
-                      className={cn(
-                        "font-semibold flex items-center transition-colors duration-200 cursor-default",
-                        (item.subItems && item.subItems.some(sub => location.pathname === sub.href))
-                          ? "text-brand-orange"
-                          : "text-foreground"
-                      )}
-                    >
-                      {item.name}
-                    </span>
-                  )}
-                  {item.subItems && (
-                    <ChevronDown className={cn(
-                      "ml-1.5 h-4 w-4 transition-transform duration-300",
-                      isServicesHovered ? "rotate-180" : ""
-                    )} />
-                  )}
-
-                  {/* Enhanced Dropdown Menu */}
-                  {item.subItems && (
-                    <AnimatePresence>
-                      {isServicesHovered && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="absolute top-full left-[-20px] w-[340px] bg-white/95 dark:bg-card/95 backdrop-blur-xl border border-border/50 shadow-2xl rounded-2xl py-4 overflow-hidden mt-0"
-                        >
-                          {/* <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue opacity-70"></div> */}
-
-                          {item.subItems.map((subItem, idx) => (
-                            <Link
-                              key={subItem.name}
-                              to={subItem.href}
-                              className={cn(
-                                "group flex items-start gap-4 px-6 py-4 transition-all duration-300 hover:bg-muted/50 relative",
-                                location.pathname === subItem.href ? "bg-muted/30" : ""
-                              )}
-                            >
-                              <div className={cn(
-                                "mt-1 p-2.5 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 shadow-sm",
-                                location.pathname === subItem.href
-                                  ? "bg-brand-orange text-white"
-                                  : "bg-brand-orange/10 text-brand-orange"
-                              )}>
-                                <subItem.icon className="h-5 w-5" />
-                              </div>
-                              <div className="flex flex-col">
-                                <span className={cn(
-                                  "font-bold text-sm mb-1 transition-colors group-hover:text-brand-orange",
-                                  location.pathname === subItem.href ? "text-brand-orange" : "text-foreground"
-                                )}>
-                                  {subItem.name}
-                                </span>
-                                <span className="text-[11px] leading-relaxed text-muted-foreground font-medium pr-2">
-                                  {subItem.description}
-                                </span>
-                              </div>
-
-                              {/* Selection Indicator */}
-                              {location.pathname === subItem.href && (
-                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-orange rounded-r-full"></div>
-                              )}
-                            </Link>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  )}
-                </div>
+                  {item.name}
+                </Link>
               ))}
 
               {/* Follow Us Social Icons */}
@@ -252,66 +155,19 @@ const Navigation = () => {
               >
                 <div className="px-4 py-6 space-y-2">
                   {navigation.map((item) => (
-                    <div key={item.name}>
-                      {item.subItems ? (
-                        <div className="space-y-1">
-                          <button
-                            onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                            className={cn(
-                              "w-full flex items-center justify-between py-3 px-3 font-semibold transition-colors duration-200 hover:bg-muted/50 rounded-md",
-                              item.subItems.some(sub => location.pathname === sub.href)
-                                ? "text-brand-orange bg-brand-orange/5"
-                                : "text-foreground"
-                            )}
-                          >
-                            {item.name}
-                            <ChevronDown className={cn(
-                              "h-4 w-4 transition-transform duration-300",
-                              isMobileServicesOpen ? "rotate-180" : ""
-                            )} />
-                          </button>
-
-                          <AnimatePresence>
-                            {isMobileServicesOpen && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="pl-4 space-y-1 overflow-hidden"
-                              >
-                                {item.subItems.map((subItem) => (
-                                  <Link
-                                    key={subItem.name}
-                                    to={subItem.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className={cn(
-                                      "flex items-center gap-3 py-3 px-4 text-sm font-medium transition-colors hover:text-brand-orange rounded-md",
-                                      location.pathname === subItem.href ? "text-brand-orange bg-brand-orange/5" : "text-muted-foreground"
-                                    )}
-                                  >
-                                    <subItem.icon className="h-4 w-4" />
-                                    {subItem.name}
-                                  </Link>
-                                ))}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <Link
-                          to={item.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className={cn(
-                            "block py-3 px-3 font-semibold transition-colors duration-200 hover:text-brand-orange hover:bg-muted/50 rounded-md",
-                            location.pathname === item.href
-                              ? "text-brand-orange bg-brand-orange/10"
-                              : "text-foreground"
-                          )}
-                        >
-                          {item.name}
-                        </Link>
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={cn(
+                        "block py-3 px-3 font-semibold transition-colors duration-200 hover:text-brand-orange hover:bg-muted/50 rounded-md",
+                        location.pathname === item.href
+                          ? "text-brand-orange bg-brand-orange/10"
+                          : "text-foreground"
                       )}
-                    </div>
+                    >
+                      {item.name}
+                    </Link>
                   ))}
 
                   {/* Follow Us Social Icons - Mobile */}

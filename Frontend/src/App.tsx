@@ -12,14 +12,13 @@ import WhatsAppFab from "@/components/WhatsAppFab";
 import SmoothScroll from "@/components/SmoothScroll";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Services from "./pages/Services";
+
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
-import EquipmentRental from "./pages/EquipmentRental";
-import ElectricalInstrumentation from "./pages/ElectricalInstrumentation";
+
 import Certificates from "./pages/Certificates";
 
 const queryClient = new QueryClient();
@@ -81,8 +80,7 @@ const App = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/about" element={<About />} />
 
-                    <Route path="/services/equipment-rental" element={<EquipmentRental />} />
-                    <Route path="/services/electrical-instrumentation" element={<ElectricalInstrumentation />} />
+
                     <Route path="/certificates" element={<Certificates />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/projects" element={<Projects />} />
