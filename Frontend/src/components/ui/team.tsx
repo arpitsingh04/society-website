@@ -1,61 +1,92 @@
-const members = [
-  {
-    name: 'Rajesh Kumar',
-    role: 'Founder & CEO',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=460&h=460&fit=crop',
-  },
-  {
-    name: 'Priya Sharma',
-    role: 'Operations Director',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=460&h=460&fit=crop',
-  },
-  {
-    name: 'Amit Patel',
-    role: 'Technical Head',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=460&h=460&fit=crop',
-  },
-  {
-    name: 'Neha Gupta',
-    role: 'HR Manager',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=460&h=460&fit=crop',
-  },
-];
+import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '@/config/api';
+
+interface TeamMember {
+    _id: string;
+    name: string;
+    position: string;
+    email?: string;
+    phone?: string;
+    image: string;
+    isActive: boolean;
+}
 
 export default function TeamSection() {
-  return (
-    <section className="section-padding">
-      <div className="container-custom max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-            Meet Our <span className="text-[#F58220]">Team</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Dedicated professionals committed to delivering excellence in industrial services
-          </p>
-        </div>
+    const [members, setMembers] = useState<TeamMember[]>([]);
+    const [loading, setLoading] = useState(true);
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
-          {members.map((member, index) => (
-            <div key={index} className="group text-center">
-              <div className="relative mb-4 mx-auto w-28 h-28 md:w-40 md:h-40">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#F58220] to-[#0D4F5C] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-                <div className="relative bg-background rounded-full border-2 border-border p-0.5 shadow-lg group-hover:border-[#F58220] transition-all duration-300 overflow-hidden">
-                  <img
-                    className="aspect-square rounded-full object-cover w-full h-full md:grayscale md:group-hover:grayscale-0 group-hover:scale-110 transition-all duration-300"
-                    src={member.avatar}
-                    alt={member.name}
-                    loading="lazy"
-                  />
+    useEffect(() => {
+        fetchMembers();
+    }, []);
+
+    const fetchMembers = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/team`);
+            if (response.ok) {
+                const data = await response.json();
+                setMembers(data);
+            }
+        } catch (error) {
+            console.error('Error fetching team members:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    return (
+        <section className="bg-gray-50 py-16 md:py-32 dark:bg-transparent">
+            <div className="mx-auto max-w-5xl border-t px-6">
+                <span className="text-caption -ml-6 -mt-3.5 block w-max bg-gray-50 px-6 dark:bg-gray-950">Members</span>
+                <div className="mt-12 gap-4 sm:grid sm:grid-cols-2 md:mt-24">
+                    <div className="sm:w-2/5">
+                        <h2 className="text-3xl font-bold sm:text-4xl">Our Society Members</h2>
+                    </div>
+                    <div className="mt-6 sm:mt-0">
+                        <p>Meet the dedicated members who work together to make our society a better place to live. Each member contributes their unique skills and expertise to ensure smooth operations and community welfare.</p>
+                    </div>
                 </div>
-              </div>
-              <h3 className="font-semibold text-sm md:text-lg mb-1 group-hover:text-[#F58220] transition-colors duration-300">
-                {member.name}
-              </h3>
-              <p className="text-muted-foreground text-xs md:text-base">{member.role}</p>
+                <div className="mt-12 md:mt-24">
+                    {loading ? (
+                        <div className="flex justify-center items-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-orange"></div>
+                        </div>
+                    ) : members.length === 0 ? (
+                        <div className="text-center py-12">
+                            <p className="text-muted-foreground">No team members found. Please add members from the admin panel.</p>
+                        </div>
+                    ) : (
+                        <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                            {members.map((member, index) => (
+                                <div key={member._id} className="group overflow-hidden">
+                                    <img 
+                                        className="h-96 w-full rounded-md object-cover object-top grayscale transition-all duration-500 hover:grayscale-0 group-hover:h-[22.5rem] group-hover:rounded-xl" 
+                                        src={`${API_BASE_URL}/uploads/${member.image}`} 
+                                        alt={member.name}
+                                        width="826" 
+                                        height="1239" 
+                                    />
+                                    <div className="px-2 pt-2 sm:pb-0 sm:pt-4">
+                                        <div className="flex justify-between">
+                                            <h3 className="text-title text-base font-medium transition-all duration-500 group-hover:tracking-wider">{member.name}</h3>
+                                            <span className="text-xs">_0{index + 1}</span>
+                                        </div>
+                                        <div className="mt-1 flex items-center justify-between">
+                                            <span className="text-muted-foreground inline-block translate-y-6 text-sm opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">{member.position}</span>
+                                            {member.email && (
+                                                <a 
+                                                    href={`mailto:${member.email}`} 
+                                                    className="group-hover:text-primary-600 dark:group-hover:text-primary-400 inline-block translate-y-8 text-sm tracking-wide opacity-0 transition-all duration-500 hover:underline group-hover:translate-y-0 group-hover:opacity-100"
+                                                >
+                                                    Contact
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    )
 }

@@ -16,6 +16,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Admin from "./pages/Admin";
+import Members from "./pages/Members";
 import NotFound from "./pages/NotFound";
 
 
@@ -79,8 +80,7 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/about" element={<About />} />
-
-
+                    <Route path="/members" element={<Members />} />
                     <Route path="/certificates" element={<Certificates />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/projects" element={<Projects />} />

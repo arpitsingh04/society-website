@@ -9,6 +9,7 @@ const connectDB = require('./config/database');
 const galleryRoutes = require('./routes/gallery');
 const contactRoutes = require('./routes/contact');
 const authRoutes = require('./routes/auth');
+const teamRoutes = require('./routes/team');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/team', teamRoutes);
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
 
 app.use((err, req, res, next) => {
