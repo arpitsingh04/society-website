@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { API_BASE_URL } from '@/config/api';
+import { useSettings } from '@/hooks/useSettings';
 import heroBg from '@/assets/heroimg/hr4.webp';
 
 const Contact = () => {
@@ -19,6 +20,8 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { data: settings } = useSettings();
 
   useEffect(() => {
     const observerOptions = {
@@ -124,27 +127,28 @@ const Contact = () => {
     {
       icon: MapPin,
       title: 'Office Location',
-      details: ['Corporate: Office No. 4, Bhoomi Tower, Plot No 35, Sec 36, Kamothe, Navi Mumbai, Maharashtra-410209'],
-      link: 'https://maps.google.com/?q=A201+Akshar+Relator+Plot+16+Sector+36+Kamothe+Navi+Mumbai+410206+Maharashtra+India'
+      details: ['Meenakshi CHS, Plot 38, Sector 16, New Panvel east'],
+      link: 'https://maps.google.com/?q=Meenakshi+CHSL+New+Panvel'
     },
     {
       icon: Phone,
       title: 'Phone Number',
-      details: ['+91 8928237775'],
-      link: 'tel:+918928237775'
+      details: [settings?.contactNumber || '+91 8928237775'],
+      link: `tel:${settings?.contactNumber}`
     },
     {
       icon: Mail,
       title: 'Email Address',
-      details: ['info@sejalind.com', 'sales@sejalind.com'],
-      link: 'mailto:info@sejalind.com'
+      details: [settings?.email || 'info@meenakshichsl.com'],
+      link: `mailto:${settings?.email || 'info@meenakshichsl.com'}`
     },
+
     {
-      icon: Clock,
-      title: 'Business Hours',
-      details: ['Monday - Saturday: 10 AM - 6 PM', 'Sunday: Closed'],
-      link: null
-    }
+      icon: MessageSquare,
+      title: 'WhatsApp',
+      details: [settings?.whatsappNumber || '+91 8928237775'],
+      link: `https://wa.me/${settings?.whatsappNumber}`
+    },
   ];
 
   const services = [
@@ -322,7 +326,17 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Call Us</p>
-                        <a href="tel:+918928237775" className="text-gray-300 hover:text-[#F58220] transition-colors block">+91 8928237775</a>
+                        <a href={`tel:${settings?.contactNumber}`} className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.contactNumber || '+91 8928237775'}</a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-[#F58220] p-3 rounded-lg">
+                        <MessageSquare className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold mb-1">WhatsApp</p>
+                        <a href={`https://wa.me/${settings?.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.whatsappNumber || '+91 8928237775'}</a>
                       </div>
                     </div>
 
@@ -332,7 +346,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Email Us</p>
-                        <a href="mailto:info@sejalind.com" className="text-gray-300 hover:text-[#F58220] transition-colors break-all">info@sejalind.com</a>
+                        <a href={`mailto:${settings?.email}`} className="text-gray-300 hover:text-[#F58220] transition-colors break-all">{settings?.email || 'info@meenakshichsl.com'}</a>
                       </div>
                     </div>
 
@@ -342,22 +356,11 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Visit Us</p>
-                        <p className="text-gray-300 text-sm font-medium">Registered Address:</p>
-                        <p className="text-gray-300 text-sm">A201, Akshar Realtor, Plot No. 16,<br />Sec 36, Kamothe, Navi Mumbai,<br />Maharashtra-410206</p>
-                        <p className="text-gray-300 text-sm font-medium mt-2">Corporate Office:</p>
-                        <p className="text-gray-300 text-sm">Office No. 4, Bhoomi Tower, Plot No 35,<br />Sec 36, Kamothe, Navi Mumbai,<br />Maharashtra-410209</p>
+                        <p className="text-gray-300 text-sm whitespace-pre-line">{settings?.address || 'Meenakshi CHS, Plot 38, Sector 16,\nNew Panvel East, Maharashtra'}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-4">
-                      <div className="bg-[#F58220] p-3 rounded-lg">
-                        <Clock className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <p className="font-semibold mb-1">Working Hours</p>
-                        <p className="text-gray-300 text-sm">Monday - Saturday: 10 AM - 6 PM<br />Sunday: Closed</p>
-                      </div>
-                    </div>
+
                   </div>
 
                   <div className="mt-10 pt-8 border-t border-white/20">

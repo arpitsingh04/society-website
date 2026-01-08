@@ -10,13 +10,18 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     <div className="fixed inset-0 z-50 bg-gradient-to-br from-background via-background to-muted flex items-center justify-center p-4">
       <div className="text-center max-w-sm mx-auto">
         {/* Logo Animation */}
-        <div className="relative mb-6 sm:mb-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-cyan/20 via-brand-blue/20 to-brand-purple/20 rounded-full blur-xl animate-pulse"></div>
-          <img
-            src={sejalLogo}
-            alt="Sejal Industrial Solutions Private Limited"
-            className="relative w-32 h-16 sm:w-48 sm:h-24 md:w-56 md:h-28 mx-auto object-contain"
-          />
+        <div className="relative mb-6 sm:mb-8 flex flex-col items-center justify-center space-y-4">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F58220]/10 via-brand-blue/10 to-[#F58220]/10 rounded-full blur-3xl animate-pulse"></div>
+
+          <div className="relative z-10 text-center space-y-2 animate-in fade-in zoom-in duration-500">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-foreground uppercase">
+              MEENAKSHI <span className="text-[#F58220]">CHSL</span>
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-[280px] sm:max-w-md mx-auto leading-relaxed">
+              Plot 38, Sector 16, New Panvel East<br />
+              <span className="text-xs opacity-75 mt-1 block font-mono">Regn. No. Rgd/Pw/Hsg/(TC)/585/92-93</span>
+            </p>
+          </div>
         </div>
 
         {/* Loading Text */}

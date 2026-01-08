@@ -61,7 +61,7 @@ export const OptimizedHero: React.FC<OptimizedHeroProps> = ({
       // Small delay for smooth transition
       const timer = setTimeout(() => {
         setHeroLoaded(true);
-      }, 500);
+      }, 5000);
       return () => clearTimeout(timer);
     }
 
@@ -147,10 +147,11 @@ export const OptimizedHero: React.FC<OptimizedHeroProps> = ({
         )}
 
         {/* Dark Gradient Overlay */}
-        {/* <div className={cn(
+        {/* Light Gradient Overlay */}
+        <div className={cn(
           "absolute inset-0",
-          videoSrc ? "bg-gradient-to-b from-gray-900/30 via-gray-900/50 to-gray-900/70" : "bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95"
-        )}></div> */}
+          videoSrc ? "bg-gradient-to-b from-black/20 via-black/10 to-black/50" : "bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95"
+        )}></div>
 
         {/* Content Container - Pushed to bottom on mobile, centered on desktop */}
         <div className="relative z-10 w-full flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-6 h-full pb-16 md:pb-0">

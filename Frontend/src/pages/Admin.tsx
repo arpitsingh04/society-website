@@ -22,7 +22,9 @@ import {
   LogOut,
   Plus,
   RefreshCw,
-  Shield
+  Shield,
+  Settings,
+  MapPin
 } from 'lucide-react';
 
 interface GalleryImage {
@@ -81,6 +83,13 @@ const Admin = () => {
     email: '',
     phone: '',
     file: null as File | null
+  });
+
+  const [settings, setSettings] = useState({
+    contactNumber: '',
+    whatsappNumber: '',
+    email: '',
+    address: ''
   });
 
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
@@ -148,7 +157,7 @@ const Admin = () => {
   };
 
   const fetchData = async () => {
-    await Promise.all([fetchImages(), fetchContacts(), fetchTeamMembers()]);
+    await Promise.all([fetchImages(), fetchContacts(), fetchTeamMembers(), fetchSettings()]);
   };
 
   const fetchImages = async () => {
@@ -187,6 +196,49 @@ const Admin = () => {
       }
     } catch (error) {
       console.error('Error fetching team members:', error);
+    }
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/settings`);
+      if (response.ok) {
+        const data = await response.json();
+        setSettings({
+          contactNumber: data.contactNumber || '',
+          whatsappNumber: data.whatsappNumber || '',
+          email: data.email || '',
+          address: data.address || ''
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  };
+
+  const handleSettingsUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`${API_BASE_URL}/api/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(settings)
+      });
+
+      if (response.ok) {
+        toast({ title: 'Success', description: 'Settings updated successfully' });
+      } else {
+        throw new Error('Failed to update settings');
+      }
+    } catch (error) {
+      toast({ title: 'Error', description: 'Failed to update settings', variant: 'destructive' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -492,7 +544,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="gallery" className="space-y-4 sm:space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-xl">
+          <TabsList className="grid w-full grid-cols-4 bg-muted/50 p-1 rounded-xl">
             <TabsTrigger value="gallery" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg text-xs sm:text-sm px-2 py-2">
               <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Events</span>
@@ -507,6 +559,11 @@ const Admin = () => {
               <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Contacts ({contacts.filter(c => c.status === 'new').length})</span>
               <span className="sm:hidden">Msgs ({contacts.filter(c => c.status === 'new').length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg text-xs sm:text-sm px-2 py-2">
+              <Settings className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Settings</span>
+              <span className="sm:hidden">Settings</span>
             </TabsTrigger>
           </TabsList>
 
@@ -784,6 +841,94 @@ const Admin = () => {
             </Card>
           </TabsContent>
 
+
+
+          <TabsContent value="settings" className="space-y-6">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
+                  General Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <form onSubmit={handleSettingsUpdate} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="contactNumber">Contact Number</Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="contactNumber"
+                          placeholder="+91 98765 43210"
+                          className="pl-9"
+                          value={settings.contactNumber}
+                          onChange={(e) => setSettings(prev => ({ ...prev, contactNumber: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="whatsappNumber">WhatsApp Number</Label>
+                      <div className="relative">
+                        <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="whatsappNumber"
+                          placeholder="+91 98765 43210"
+                          className="pl-9"
+                          value={settings.whatsappNumber}
+                          onChange={(e) => setSettings(prev => ({ ...prev, whatsappNumber: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="info@example.com"
+                          className="pl-9"
+                          value={settings.email}
+                          onChange={(e) => setSettings(prev => ({ ...prev, email: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <Label htmlFor="address">Address</Label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Textarea
+                          id="address"
+                          placeholder="Meenakshi CHS..."
+                          className="pl-9 min-h-[80px]"
+                          value={settings.address}
+                          onChange={(e) => setSettings(prev => ({ ...prev, address: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-4">
+                    <Button type="submit" disabled={loading}>
+                      {loading ? (
+                        <>
+                          <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        'Save Changes'
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="contacts" className="space-y-6">
             <Card>
               <CardHeader className="pb-3">
@@ -870,8 +1015,8 @@ const Admin = () => {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

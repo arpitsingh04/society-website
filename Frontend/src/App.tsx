@@ -11,16 +11,11 @@ import WhatsAppFab from "@/components/WhatsAppFab";
 // import CursorFollower from "@/components/CursorFollower";
 import SmoothScroll from "@/components/SmoothScroll";
 import Home from "./pages/Home";
-import About from "./pages/About";
-
 import Contact from "./pages/Contact";
 import Events from "./pages/Events";
 import Admin from "./pages/Admin";
 import Members from "./pages/Members";
 import NotFound from "./pages/NotFound";
-
-
-import Certificates from "./pages/Certificates";
 
 const queryClient = new QueryClient();
 
@@ -78,10 +73,7 @@ const App = () => {
                 <main className="flex-1 w-full overflow-x-hidden">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/about" element={<About />} />
                     <Route path="/members" element={<Members />} />
-                    <Route path="/certificates" element={<Certificates />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/events" element={<Events />} />
                     <Route path="/admin" element={<Admin />} />

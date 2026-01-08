@@ -1,14 +1,17 @@
 import React from 'react';
 
+import { useSettings } from '@/hooks/useSettings';
+
 interface WhatsAppFabProps {
-  phoneNumber?: string;
   message?: string;
 }
 
 const WhatsAppFab: React.FC<WhatsAppFabProps> = ({
-  phoneNumber = "+918928237775",
-  message = "Hello! I'm interested in your services."
+  message = "Hello! I'm interested in the society."
 }) => {
+  const { data: settings } = useSettings();
+  const phoneNumber = settings?.whatsappNumber || "+918928237775";
+
   return (
     <div className="fixed bottom-6 right-6 z-[10000]">
       <a
