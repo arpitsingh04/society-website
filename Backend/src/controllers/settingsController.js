@@ -17,21 +17,19 @@ exports.getSettings = async (req, res) => {
 // Update Settings
 exports.updateSettings = async (req, res) => {
     try {
-        const { contactNumber, whatsappNumber, email, address } = req.body;
+        const { contactNumber, whatsappNumber, email } = req.body;
         let setting = await Setting.findOne();
 
         if (!setting) {
             setting = new Setting({
                 contactNumber,
                 whatsappNumber,
-                email,
-                address
+                email
             });
         } else {
             setting.contactNumber = contactNumber || setting.contactNumber;
             setting.whatsappNumber = whatsappNumber || setting.whatsappNumber;
             setting.email = email || setting.email;
-            setting.address = address || setting.address;
         }
 
         const updatedSetting = await setting.save();

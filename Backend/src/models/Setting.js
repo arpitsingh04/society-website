@@ -3,21 +3,15 @@ const mongoose = require('mongoose');
 const settingSchema = new mongoose.Schema({
     contactNumber: {
         type: String,
-        required: true,
-        default: '+91 8928237775'
+        required: true
     },
     whatsappNumber: {
         type: String,
-        required: true,
-        default: '+91 8928237775'
+        required: true
     },
     email: {
         type: String,
-        default: 'info@meenakshichsl.com'
-    },
-    address: {
-        type: String,
-        default: 'Meenakshi CHS, Plot 38, Sector 16, New Panvel East, Maharashtra'
+        default: ''
     }
 }, { timestamps: true });
 

@@ -45,6 +45,11 @@ import heroVideo from '@/assets/video/society-video.mp4';
 import societyBuildingImg from '@/assets/society/society-building.jpeg';
 import { API_BASE_URL } from '@/config/api';
 
+import societyMeetingImg from '@/assets/events/society_meeting.jpg';
+import diwaliImg from '@/assets/events/diwali_celebration.jpg';
+import yogaImg from '@/assets/events/yoga_workshop.jpg';
+import cricketImg from '@/assets/events/cricket_tournament.jpg';
+
 interface GalleryImage {
   _id: string;
   filePath: string;
@@ -116,28 +121,28 @@ const Home = () => {
     {
       title: "Annual General Meeting",
       category: "Society Meeting",
-      image: ele1,
+      image: societyMeetingImg,
       description: "Annual meeting for all society members to discuss upcoming plans.",
       eventDate: new Date().toISOString()
     },
     {
       title: "Diwali Celebration",
       category: "Cultural Event",
-      image: rent7,
+      image: diwaliImg,
       description: "Grand celebration of festival of lights with all members.",
       eventDate: new Date().toISOString()
     },
     {
       title: "Yoga Workshop",
       category: "Workshop",
-      image: ele2,
+      image: yogaImg,
       description: "Morning yoga session for health and wellness.",
       eventDate: new Date().toISOString()
     },
     {
       title: "Cricket Tournament",
       category: "Sports",
-      image: rent2,
+      image: cricketImg,
       description: "Friendly cricket tournament for society youth.",
       eventDate: new Date().toISOString()
     }

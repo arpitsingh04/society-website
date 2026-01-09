@@ -133,20 +133,20 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone Number',
-      details: [settings?.contactNumber || '+91 8928237775'],
+      details: [settings?.contactNumber || ''],
       link: `tel:${settings?.contactNumber}`
     },
     {
       icon: Mail,
       title: 'Email Address',
-      details: [settings?.email || 'info@meenakshichsl.com'],
-      link: `mailto:${settings?.email || 'info@meenakshichsl.com'}`
+      details: [settings?.email || ''],
+      link: `mailto:${settings?.email || ''}`
     },
 
     {
       icon: MessageSquare,
       title: 'WhatsApp',
-      details: [settings?.whatsappNumber || '+91 8928237775'],
+      details: [settings?.whatsappNumber || ''],
       link: `https://wa.me/${settings?.whatsappNumber}`
     },
   ];
@@ -326,7 +326,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Call Us</p>
-                        <a href={`tel:${settings?.contactNumber}`} className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.contactNumber || '+91 8928237775'}</a>
+                        <a href={`tel:${settings?.contactNumber}`} className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.contactNumber}</a>
                       </div>
                     </div>
 
@@ -336,7 +336,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">WhatsApp</p>
-                        <a href={`https://wa.me/${settings?.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.whatsappNumber || '+91 8928237775'}</a>
+                        <a href={`https://wa.me/${settings?.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#F58220] transition-colors block">{settings?.whatsappNumber}</a>
                       </div>
                     </div>
 
@@ -346,7 +346,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Email Us</p>
-                        <a href={`mailto:${settings?.email}`} className="text-gray-300 hover:text-[#F58220] transition-colors break-all">{settings?.email || 'info@meenakshichsl.com'}</a>
+                        <a href={`mailto:${settings?.email}`} className="text-gray-300 hover:text-[#F58220] transition-colors break-all">{settings?.email}</a>
                       </div>
                     </div>
 
@@ -356,7 +356,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-semibold mb-1">Visit Us</p>
-                        <p className="text-gray-300 text-sm whitespace-pre-line">{settings?.address || 'Meenakshi CHS, Plot 38, Sector 16,\nNew Panvel East, Maharashtra'}</p>
+                        <p className="text-gray-300 text-sm whitespace-pre-line">Meenakshi CHS, Plot 38, Sector 16,{'\n'}New Panvel East, Maharashtra</p>
                       </div>
                     </div>
 
@@ -385,19 +385,19 @@ const Contact = () => {
             <h2 className="font-heading text-3xl sm:text-4xl font-black mb-3 text-gray-900 dark:text-white">
               Find Us on <span className="text-[#F58220]">Map</span>
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">Located in Kamothe, Navi Mumbai, Maharashtra</p>
+            <p className="text-gray-600 dark:text-gray-300 text-lg">Meenakshi CHS, Plot 38, Sector 16, New Panvel east</p>
           </div>
 
           <div className="rounded-3xl overflow-hidden shadow-2xl">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7543.952936223751!2d73.08560478996165!3d19.02075857177415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e9d838655555%3A0x31088f2b350f59e7!2sBhoomi%20Towers!5e0!3m2!1sen!2sin!4v1765515619275!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.659944982273!2d73.12296557466316!3d18.990619754648474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e867ad2624c5%3A0x9432f72b28dea02e!2sMeenakshi%20CHS!5e0!3m2!1sen!2sin!4v1767939160210!5m2!1sen!2sin"
               width="100%"
               height="450"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Bhoomi Towers - Sejal Industrial Solutions Corporate Office"
+              title="Meenakshi CHS Location"
               className="w-full"
             />
           </div>

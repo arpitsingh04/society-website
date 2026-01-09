@@ -71,11 +71,11 @@ const Footer = () => {
               <div className="space-y-4">
                 <div className="group">
                   <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1 group-hover:text-[#F58220] transition-colors">Email</p>
-                  <a href={`mailto:${settings?.email || 'info@meenakshichsl.com'}`} className="flex items-center gap-3 text-gray-400 group-hover:text-[#F58220] transition-colors">
+                  <a href={`mailto:${settings?.email}`} className="flex items-center gap-3 text-gray-400 group-hover:text-[#F58220] transition-colors">
                     <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F58220]/20 transition-colors">
                       <Mail className="w-4 h-4" />
                     </span>
-                    <span className="text-sm font-medium break-all">{settings?.email || 'info@meenakshichsl.com'}</span>
+                    <span className="text-sm font-medium break-all">{settings?.email}</span>
                   </a>
                 </div>
 
@@ -85,7 +85,7 @@ const Footer = () => {
                     <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F58220]/20 transition-colors">
                       <Phone className="w-4 h-4" />
                     </span>
-                    <span className="text-sm font-medium">{settings?.contactNumber || '+91 98765 43210'}</span>
+                    <span className="text-sm font-medium">{settings?.contactNumber}</span>
                   </a>
                 </div>
                 <div className="group">
@@ -94,7 +94,7 @@ const Footer = () => {
                     <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F58220]/20 transition-colors">
                       <MessageSquare className="w-4 h-4" />
                     </span>
-                    <span className="text-sm font-medium">{settings?.whatsappNumber || '+91 98765 43210'}</span>
+                    <span className="text-sm font-medium">{settings?.whatsappNumber}</span>
                   </a>
                 </div>
               </div>
@@ -106,7 +106,7 @@ const Footer = () => {
                     <MapPin className="w-4 h-4 group-hover:text-[#F58220] transition-colors" />
                   </span>
                   <p className="text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                    {settings?.address || <>Meenakshi CHS, Plot 38, Sector 16,<br />New Panvel East, Maharashtra</>}
+                    Meenakshi CHS, Plot 38, Sector 16,<br />New Panvel East, Maharashtra
                   </p>
                 </div>
               </div>

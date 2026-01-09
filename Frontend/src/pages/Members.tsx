@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import TeamSection from '@/components/ui/team';
 import heroBg from '@/assets/heroimg/hr5.webp';
+import { Link } from 'react-router-dom';
+
 
 const Members = () => {
   useEffect(() => {
@@ -43,27 +45,22 @@ const Members = () => {
       {/* Team Section */}
       <TeamSection />
 
-      {/* Statistics Section */}
-      <section className="py-16 bg-background">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-brand-orange mb-2">150+</div>
-              <div className="text-muted-foreground">Total Members</div>
-            </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-brand-orange mb-2">12</div>
-              <div className="text-muted-foreground">Committee Members</div>
-            </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-brand-orange mb-2">8</div>
-              <div className="text-muted-foreground">Years Established</div>
-            </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-brand-orange mb-2">95%</div>
-              <div className="text-muted-foreground">Satisfaction Rate</div>
-            </div>
-          </div>
+      {/* Join Us Section */}
+      <section className="py-20 bg-muted/50">
+        <div className="container-custom text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+            Want to be a part of our <span className="text-[#F58220]">Community?</span>
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground mb-10">
+            Join our vibrant society and enjoy exclusive benefits, community events, and world-class facilities.
+            Connect with neighbors and build lasting relationships.
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex h-14 items-center justify-center rounded-full bg-[#F58220] px-10 text-base font-bold text-white shadow-lg transition-all hover:bg-[#e0751a] hover:scale-105 active:scale-95"
+          >
+            Become a Member
+          </Link>
         </div>
       </section>
     </div>

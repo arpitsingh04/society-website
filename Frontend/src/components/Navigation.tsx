@@ -24,8 +24,8 @@ const Navigation = () => {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Events', href: '/events' },
     { name: 'Members', href: '/members' },
+    { name: 'Events', href: '/events' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -72,12 +72,11 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
-              <a href={`tel:${settings?.contactNumber || '+918928237775'}`}>
+              <Link to="/contact">
                 <Button className="bg-[#F58220] hover:bg-[#d66e15] text-white rounded-full px-6">
-                  <Phone className="w-4 h-4 mr-2" />
-                  {settings?.contactNumber || '+91 8928237775'}
+                  Get in Touch
                 </Button>
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -121,7 +120,7 @@ const Navigation = () => {
                     {item.name}
                   </Link>
                 ))}
-                <a href={`tel:${settings?.contactNumber || '+918928237775'}`} onClick={() => setIsMenuOpen(false)}>
+                <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                   <Button
                     className="text-white w-full mt-4 shadow-lg font-bold"
                     style={{
@@ -129,9 +128,9 @@ const Navigation = () => {
                       backgroundImage: 'none'
                     }}
                   >
-                    Call Now
+                    Get in Touch
                   </Button>
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}

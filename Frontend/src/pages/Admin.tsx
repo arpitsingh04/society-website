@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -53,7 +54,6 @@ interface TeamMember {
   _id: string;
   name: string;
   position: string;
-  email?: string;
   phone?: string;
   image: string;
   isActive: boolean;
@@ -62,6 +62,7 @@ interface TeamMember {
 
 const Admin = () => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -80,7 +81,6 @@ const Admin = () => {
   const [memberData, setMemberData] = useState({
     name: '',
     position: '',
-    email: '',
     phone: '',
     file: null as File | null
   });
@@ -88,8 +88,7 @@ const Admin = () => {
   const [settings, setSettings] = useState({
     contactNumber: '',
     whatsappNumber: '',
-    email: '',
-    address: ''
+    email: ''
   });
 
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
@@ -207,8 +206,7 @@ const Admin = () => {
         setSettings({
           contactNumber: data.contactNumber || '',
           whatsappNumber: data.whatsappNumber || '',
-          email: data.email || '',
-          address: data.address || ''
+          email: data.email || ''
         });
       }
     } catch (error) {
@@ -232,6 +230,7 @@ const Admin = () => {
 
       if (response.ok) {
         toast({ title: 'Success', description: 'Settings updated successfully' });
+        queryClient.invalidateQueries({ queryKey: ['settings'] });
       } else {
         throw new Error('Failed to update settings');
       }
@@ -333,7 +332,6 @@ const Admin = () => {
     formData.append('image', memberData.file);
     formData.append('name', memberData.name);
     formData.append('position', memberData.position);
-    if (memberData.email) formData.append('email', memberData.email);
     if (memberData.phone) formData.append('phone', memberData.phone);
 
     try {
@@ -346,7 +344,7 @@ const Admin = () => {
 
       if (response.ok) {
         toast({ title: 'Success', description: 'Team member added successfully' });
-        setMemberData({ name: '', position: '', email: '', phone: '', file: null });
+        setMemberData({ name: '', position: '', phone: '', file: null });
         fetchTeamMembers();
       } else {
         throw new Error('Failed to add member');
@@ -370,7 +368,6 @@ const Admin = () => {
     if (memberData.file) formData.append('image', memberData.file);
     formData.append('name', memberData.name);
     formData.append('position', memberData.position);
-    if (memberData.email) formData.append('email', memberData.email);
     if (memberData.phone) formData.append('phone', memberData.phone);
 
     try {
@@ -384,7 +381,7 @@ const Admin = () => {
       if (response.ok) {
         toast({ title: 'Success', description: 'Team member updated successfully' });
         setEditingMember(null);
-        setMemberData({ name: '', position: '', email: '', phone: '', file: null });
+        setMemberData({ name: '', position: '', phone: '', file: null });
         fetchTeamMembers();
       } else {
         throw new Error('Failed to update member');
@@ -422,7 +419,6 @@ const Admin = () => {
     setMemberData({
       name: member.name,
       position: member.position,
-      email: member.email || '',
       phone: member.phone || '',
       file: null
     });
@@ -430,7 +426,7 @@ const Admin = () => {
 
   const cancelEdit = () => {
     setEditingMember(null);
-    setMemberData({ name: '', position: '', email: '', phone: '', file: null });
+    setMemberData({ name: '', position: '', phone: '', file: null });
   };
 
   if (!isAuthenticated) {
@@ -490,7 +486,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-8">
+    <div className="min-h-screen pt-24 lg:pt-36 pb-8">
       <div className="container-custom">
         <div className="bg-gradient-to-r from-brand-cyan to-brand-blue rounded-xl p-4 sm:p-6 mb-6 text-white">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -738,16 +734,7 @@ const Admin = () => {
                     </div>
                   </div>
                   <div className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                    <div>
-                      <Label htmlFor="memberEmail" className="text-sm">Email</Label>
-                      <Input
-                        id="memberEmail"
-                        type="email"
-                        value={memberData.email}
-                        onChange={(e) => setMemberData(prev => ({ ...prev, email: e.target.value }))}
-                        className="text-sm"
-                      />
-                    </div>
+
                     <div>
                       <Label htmlFor="memberPhone" className="text-sm">Phone</Label>
                       <Input
@@ -897,19 +884,7 @@ const Admin = () => {
                       </div>
                     </div>
 
-                    <div className="md:col-span-2 space-y-2">
-                      <Label htmlFor="address">Address</Label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Textarea
-                          id="address"
-                          placeholder="Meenakshi CHS..."
-                          className="pl-9 min-h-[80px]"
-                          value={settings.address}
-                          onChange={(e) => setSettings(prev => ({ ...prev, address: e.target.value }))}
-                        />
-                      </div>
-                    </div>
+
                   </div>
 
                   <div className="flex justify-end pt-4">
