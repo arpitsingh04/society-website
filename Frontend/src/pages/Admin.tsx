@@ -64,7 +64,7 @@ const Admin = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -152,7 +152,7 @@ const Admin = () => {
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     setIsAuthenticated(false);
-    setLoginData({ email: '', password: '' });
+    setLoginData({ username: '', password: '' });
   };
 
   const fetchData = async () => {
@@ -442,18 +442,18 @@ const Admin = () => {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Mail className="h-4 w-4 text-gray-400" />
+                    <User className="h-4 w-4 text-gray-400" />
                   </div>
                   <Input
-                    id="email"
-                    type="email"
-                    value={loginData.email}
-                    onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
+                    id="username"
+                    type="text"
+                    value={loginData.username}
+                    onChange={(e) => setLoginData(prev => ({ ...prev, username: e.target.value }))}
                     className="pl-10"
-                    placeholder="Enter your email"
+                    placeholder="Enter your username"
                     required
                   />
                 </div>

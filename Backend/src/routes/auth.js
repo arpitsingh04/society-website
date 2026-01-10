@@ -7,23 +7,28 @@ const Admin = require('../models/Admin');
 // Login route
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
     }
 
     // Check if admin exists
-    let admin = await Admin.findOne({ email: email.toLowerCase() });
+    let admin = await Admin.findOne({ username: username.toLowerCase() });
     
-    // Create default admin if doesn't exist
+    // Create or update admin with env credentials
     if (!admin) {
       const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
       admin = new Admin({
-        email: process.env.ADMIN_EMAIL,
+        username: process.env.ADMIN_USERNAME,
         password: hashedPassword,
         name: 'Admin'
       });
+      await admin.save();
+    } else if (username.toLowerCase() === process.env.ADMIN_USERNAME.toLowerCase()) {
+      // Update password if env credentials changed
+      const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
+      admin.password = hashedPassword;
       await admin.save();
     }
 
@@ -35,7 +40,7 @@ router.post('/login', async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { adminId: admin._id, email: admin.email },
+      { adminId: admin._id, username: admin.username },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -45,7 +50,7 @@ router.post('/login', async (req, res) => {
       token,
       admin: {
         id: admin._id,
-        email: admin.email,
+        username: admin.username,
         name: admin.name
       }
     });
