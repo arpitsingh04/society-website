@@ -10,6 +10,7 @@ interface OptimizedHeroProps {
   ctaText: string;
   images: string[];
   videoSrc?: string;
+  heroImage?: string;
   className?: string;
   onCtaClick?: () => void;
   onServicesClick?: () => void;
@@ -22,6 +23,7 @@ export const OptimizedHero: React.FC<OptimizedHeroProps> = ({
   ctaText,
   images,
   videoSrc,
+  heroImage,
   className,
   onCtaClick,
   onServicesClick,
@@ -108,6 +110,14 @@ export const OptimizedHero: React.FC<OptimizedHeroProps> = ({
             {/* Gradient Overlay for better text readability */}
             {/* <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-900/60 to-gray-900/80" /> */}
           </div>
+        ) : heroImage ? (
+          <div className="absolute inset-0 w-full h-full bg-gray-900">
+            <img
+              src={heroImage}
+              alt="Hero Background"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
         ) : (
           /* Background Image Grid with Perspective */
           <div
@@ -150,7 +160,7 @@ export const OptimizedHero: React.FC<OptimizedHeroProps> = ({
         {/* Light Gradient Overlay */}
         <div className={cn(
           "absolute inset-0",
-          videoSrc ? "bg-gradient-to-b from-black/20 via-black/10 to-black/50" : "bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95"
+          videoSrc ? "bg-gradient-to-b from-black/20 via-black/10 to-black/50" : "bg-gradient-to-br from-gray-900/40 via-gray-800/30 to-gray-900/40"
         )}></div>
 
         {/* Content Container - Pushed to bottom on mobile, centered on desktop */}

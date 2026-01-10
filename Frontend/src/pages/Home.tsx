@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Shield, Wrench, Award, CheckCircle, Star, Users, Building, Clock, Youtube, Play, TrendingUp, Factory, Zap, Truck, Package, Settings, Anchor, Warehouse, Fuel, HardHat, Cog, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Shield, Wrench, Award, Star, Users, Building, Clock, Youtube, Play, TrendingUp, Factory, Zap, Truck, Package, Settings, Anchor, Warehouse, Fuel, HardHat, Cog, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { TestimonialCarousel, type Testimonial } from '@/components/ui/testimonial';
@@ -42,13 +42,10 @@ import warehouseImg from '@/assets/industries/warehousing.webp';
 import powerImg from '@/assets/industries/power.webp';
 import maintImg from '@/assets/industries/maintenance.webp';
 import heroVideo from '@/assets/video/society-video.mp4';
-import societyBuildingImg from '@/assets/society/society-building.jpeg';
+import societyBuildingImg from '@/assets/society/full-building-refined.png';
 import { API_BASE_URL } from '@/config/api';
 
-import societyMeetingImg from '@/assets/events/society_meeting.jpg';
-import diwaliImg from '@/assets/events/diwali_celebration.jpg';
-import yogaImg from '@/assets/events/yoga_workshop.jpg';
-import cricketImg from '@/assets/events/cricket_tournament.jpg';
+
 
 interface GalleryImage {
   _id: string;
@@ -117,38 +114,8 @@ const Home = () => {
     rent2,
   ];
 
-  const fallbackProjects = [
-    {
-      title: "Annual General Meeting",
-      category: "Society Meeting",
-      image: societyMeetingImg,
-      description: "Annual meeting for all society members to discuss upcoming plans.",
-      eventDate: new Date().toISOString()
-    },
-    {
-      title: "Diwali Celebration",
-      category: "Cultural Event",
-      image: diwaliImg,
-      description: "Grand celebration of festival of lights with all members.",
-      eventDate: new Date().toISOString()
-    },
-    {
-      title: "Yoga Workshop",
-      category: "Workshop",
-      image: yogaImg,
-      description: "Morning yoga session for health and wellness.",
-      eventDate: new Date().toISOString()
-    },
-    {
-      title: "Cricket Tournament",
-      category: "Sports",
-      image: cricketImg,
-      description: "Friendly cricket tournament for society youth.",
-      eventDate: new Date().toISOString()
-    }
-  ];
-
-  const displayProjects = dynamicProjects.length > 0 ? dynamicProjects : fallbackProjects;
+  /* const fallbackProjects = []; */
+  const displayProjects = dynamicProjects;
 
 
 
@@ -163,7 +130,7 @@ const Home = () => {
       description="Plot 38, Sector 16, New Panvel East"
       ctaText="Contact Us"
       images={heroImages}
-      videoSrc={heroVideo}
+      heroImage={societyBuildingImg}
       onCtaClick={() => navigate('/contact')}
       onServicesClick={() => navigate('/events')}
     />
@@ -201,21 +168,7 @@ const Home = () => {
               <p>
                 With well-maintained amenities, lush green surroundings, and a proactive management committee, we ensure that every resident enjoys a high quality of life. From cultural festivals to safety initiatives, we are committed to excellence in every aspect of society management.
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                {[
-                  '24/7 Security & Surveillance',
-                  'Lush Green Gardens',
-                  'Community Hall',
-                  'Children\'s Play Area',
-                  'Ample Parking Space',
-                  'Sustainable Waste Management'
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-base font-medium text-foreground">
-                    <CheckCircle className="w-5 h-5 text-[#F58220]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+
             </div>
           </div>
           <div className="order-1 lg:order-2 fade-in-section relative group">
